@@ -64,7 +64,7 @@
     <h1>{curText}</h1>
     <div class="controlPanel">
       <button on:click={() => {
-        setText(Math.max(Math.ceil(curIndex-perMinute/60), 0));
+        setText(Math.max(curIndex-Math.ceil(perMinute/60), 0));
       }}>Rewind 1 second</button>
       <input type="range" min="0" max={words.length-1} bind:value={progressIndex} on:change={() => {
         setText(progressIndex);
