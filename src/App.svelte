@@ -1,7 +1,7 @@
 <script>
   let display = 0;
   let textValue = "";
-  let perMinute = 0;
+  let perMinute = 240;
   let curText = "";
   let message = "";
 
@@ -10,7 +10,7 @@
   let curIndex = 0;
   let progressIndex = 0;
 
-  const setText = (index) => {
+  const setText = (index, resume) => {
     clearInterval(interval);
     interval = null;
 
@@ -22,13 +22,15 @@
       return;
     }
 
-    interval = setTimeout(() => {
-      if (curIndex !== progressIndex) {
-        return;
-      }
+    if (resume) {
+      interval = setTimeout(() => {
+        if (curIndex !== progressIndex) {
+          return;
+        }
 
-      setText(curIndex+1);
-    }, curText.endsWith(".")?(60/perMinute*1000*2):(60/perMinute*1000));
+        setText(curIndex+1, true);
+      }, curText.endsWith(".")?(60/perMinute*1000*2):(60/perMinute*1000));
+    }
   }
 </script>
 
@@ -46,34 +48,41 @@
     <input type="value" name="text" id="text" bind:value={textValue} placeholder="Enter the text" required>
     <input type="number" name="seconds" id="seconds" placeholder="Words per minute" bind:value={perMinute} required>
     <button on:click={() => {
+      if (textValue.length <= 1 && perMinute <= 0) {
+        message = "Enter the text and the words per minute value!";
+        return;
+      }
+
       if (textValue.length <= 1) {
         message = "Enter the text!";
         return;
       }
+
       if (perMinute <= 0) {
-        message ="Enter the words per minute value";
+        message = "Enter the words per minute value!";
         return;
       }
 
       display = 1;
       words = textValue.split(" ");
       
-      setText(0);
+      setText(0, true);
     }}>Start</button>
   {:else}
     <h1>{curText}</h1>
     <div class="controlPanel">
       <button on:click={() => {
-        setText(Math.max(curIndex-Math.ceil(perMinute/60), 0));
+        setText(Math.max(curIndex-Math.ceil(perMinute/60), 0), interval!==null);
       }}>Rewind 1 second</button>
       <input type="range" min="0" max={words.length-1} bind:value={progressIndex} on:change={() => {
-        setText(progressIndex);
+        setText(progressIndex, interval!==null);
       }}>
       <button on:click={() => {
         if (interval == null) {
-          setText(curIndex);
+          setText(curIndex, true);
         } else {
           clearInterval(interval);
+          interval = null;
         }
         interval = null;
       }}>{interval==null?"Resume":"Pause"}</button>
