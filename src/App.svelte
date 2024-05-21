@@ -36,7 +36,7 @@
   {#if message !== ""}
   <div class="splash">
     <div class="message">
-      <span>Message</span>
+      <span>Warning</span>
       <span>{message}</span>
       <button on:click={() => {message="";}}>OK</button>
     </div>
@@ -82,7 +82,7 @@
         display = 0;
         clearInterval(interval);
         interval = null;
-      }}>Скасувати</button>
+      }}>Cancel</button>
     </div>
   {/if}
 </main>
