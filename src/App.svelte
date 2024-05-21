@@ -36,22 +36,22 @@
   {#if message !== ""}
   <div class="splash">
     <div class="message">
-      <span>Повідомлення</span>
+      <span>Message</span>
       <span>{message}</span>
       <button on:click={() => {message="";}}>OK</button>
     </div>
   </div>
   {/if}
   {#if display == 0}
-    <input type="value" name="text" id="text" bind:value={textValue} placeholder="Введіть текст" required>
-    <input type="number" name="seconds" id="seconds" placeholder="слів за хвилину" bind:value={perMinute} required>
+    <input type="value" name="text" id="text" bind:value={textValue} placeholder="Enter the text" required>
+    <input type="number" name="seconds" id="seconds" placeholder="words per minute" bind:value={perMinute} required>
     <button on:click={() => {
       if (textValue.length <= 1) {
-        message = "Встановіть текст!";
+        message = "Enter the text!";
         return;
       }
       if (perMinute <= 0) {
-        message ="Встановіть значення для слів за хвилину!";
+        message ="Enter the words per minute value";
         return;
       }
 
@@ -65,7 +65,7 @@
     <div class="controlPanel">
       <button on:click={() => {
         setText(Math.max(Math.ceil(curIndex-perMinute/60), 0));
-      }}>Перегорнути на 1 секунду назад</button>
+      }}>Rewind 1 second</button>
       <input type="range" min="0" max={words.length-1} bind:value={progressIndex} on:change={() => {
         setText(progressIndex);
       }}>
@@ -76,7 +76,7 @@
           clearInterval(interval);
         }
         interval = null;
-      }}>{interval==null?"Відновити":"Зупинити"}</button>
+      }}>{interval==null?"Resume":"Stop"}</button>
       <button class="cancel" on:click={() => {
         words = [];
         display = 0;
