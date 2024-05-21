@@ -44,7 +44,7 @@
   {/if}
   {#if display == 0}
     <input type="value" name="text" id="text" bind:value={textValue} placeholder="Enter the text" required>
-    <input type="number" name="seconds" id="seconds" placeholder="words per minute" bind:value={perMinute} required>
+    <input type="number" name="seconds" id="seconds" placeholder="Words per minute" bind:value={perMinute} required>
     <button on:click={() => {
       if (textValue.length <= 1) {
         message = "Enter the text!";
@@ -59,7 +59,7 @@
       words = textValue.split(" ");
       
       setText(0);
-    }}>Запустити</button>
+    }}>Start</button>
   {:else}
     <h1>{curText}</h1>
     <div class="controlPanel">
@@ -76,7 +76,7 @@
           clearInterval(interval);
         }
         interval = null;
-      }}>{interval==null?"Resume":"Stop"}</button>
+      }}>{interval==null?"Resume":"Pause"}</button>
       <button class="cancel" on:click={() => {
         words = [];
         display = 0;
